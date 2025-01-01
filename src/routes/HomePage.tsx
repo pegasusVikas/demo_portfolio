@@ -1,5 +1,5 @@
 import React from 'react';
-import BlackHoleAnimation from './BlackHoleAnimation';
+import BlackHoleAnimation from '../components/BlackHoleAnimation';
 
 const HomePage: React.FC = () => {
   return (

@@ -1,55 +1,47 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Home, User, Briefcase, Heart } from 'lucide-react';
-import HomePage from './components/HomePage';
-import AboutMe from './components/AboutMe';
-import MyProjects from './components/MyProjects';
-import MyHobbies from './components/MyHobbies';
-
+import HomePage from './routes/HomePage';
+import AboutMe from './routes/AboutMe';
+import MyProjects from './routes/MyProjects';
+import MyHobbies from './routes/MyHobbies';
+import PathOfFate from './routes/PathOfFate';
+import Play from './routes/PathOfFate/Play';
 const App: React.FC = () => {
-  const [activePage, setActivePage] = useState('home');
-
-  const renderPage = () => {
-    switch (activePage) {
-      case 'home':
-        return <HomePage />;
-      case 'about':
-        return <AboutMe />;
-      case 'projects':
-        return <MyProjects />;
-      case 'hobbies':
-        return <MyHobbies />;
-      default:
-        return <HomePage />;
-    }
-  };
-
   return (
-    <div className="flex h-screen bg-black text-white">
-      {/* Side Navigation */}
-      <nav className="fixed left-0 top-0 h-full w-16 bg-gray-900 flex flex-col items-center justify-center space-y-8">
-        <NavIcon icon={<Home />} onClick={() => setActivePage('home')} active={activePage === 'home'} />
-        <NavIcon icon={<User />} onClick={() => setActivePage('about')} active={activePage === 'about'} />
-        <NavIcon icon={<Briefcase />} onClick={() => setActivePage('projects')} active={activePage === 'projects'} />
-        <NavIcon icon={<Heart />} onClick={() => setActivePage('hobbies')} active={activePage === 'hobbies'} />
-      </nav>
+    <Router>
+      <div className="flex h-screen bg-black text-white">
+        {/* Side Navigation */}
+        <nav className="fixed left-0 top-0 h-full w-16 bg-gray-900 flex flex-col items-center justify-center space-y-8">
+          <NavIcon icon={<Home />} to="/" />
+          <NavIcon icon={<User />} to="/about" />
+          <NavIcon icon={<Briefcase />} to="/projects" />
+          <NavIcon icon={<Heart />} to="/hobbies" />
+        </nav>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-16">
-        {renderPage()}
-      </main>
-    </div>
+        {/* Main Content */}
+        <main className="flex-1 ml-16">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutMe />} />
+            <Route path="/projects" element={<MyProjects />} />
+            <Route path="/hobbies" element={<MyHobbies />} />
+            <Route path="/pathOfFate" element={<PathOfFate />} />
+            <Route path="/pathOfFate/play" element={<Play />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 };
 
-const NavIcon: React.FC<{ icon: React.ReactNode; onClick: () => void; active: boolean }> = ({ icon, onClick, active }) => (
-  <button
-    onClick={onClick}
-    className={`p-2 rounded-full transition-colors duration-200 ${
-      active ? 'bg-blue-500 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-    }`}
+const NavIcon: React.FC<{ icon: React.ReactNode; to: string }> = ({ icon, to }) => (
+  <Link
+    to={to}
+    className="p-2 rounded-full transition-colors duration-200 text-gray-400 hover:bg-gray-800 hover:text-white"
   >
     {icon}
-  </button>
+  </Link>
 );
 
 export default App;
