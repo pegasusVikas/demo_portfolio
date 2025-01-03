@@ -11,7 +11,7 @@ const Play: React.FC = () => {
     'story summary': '',
     'current state': '',
     options: { A: '', B: '', C: '' },
-    'isGameOver': false
+    'health': 0
   });
   const [isLoading, setLoading] = useState(false);
 
@@ -57,7 +57,7 @@ const Play: React.FC = () => {
           </h1>
 
           {/* Story Image */}
-          <div className="w-full h-64 mb-8">
+          <div className="w-full mb-8">
             <img
               src={`${storyData?.image}`}
               alt="Story Scene"

@@ -9,7 +9,7 @@ export interface GameState {
     "story summary": string;
     "current state": string;
     options: GameOptions;
-    "isGameOver" : boolean
+    "health" : number;
 }
 
 export interface GameAction {

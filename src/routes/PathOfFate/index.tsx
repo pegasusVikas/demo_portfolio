@@ -12,14 +12,14 @@ const PathOfFate: React.FC = () => {
   const handleSubmit = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${BACKEND_API}/createStory`, {
-        data: { prompt: textInput }
+      const response = await axios.post(`${BACKEND_API}/createStory`, {
+        prompt: textInput 
       });
       
       console.log('Story data:', response.data);
       navigate('/pathOfFate/play', { 
         state: { 
-          storyData: response.data
+          storyData: {...response.data, image: BACKEND_API+response.data.image}
         } 
       });
     } catch (error) {
