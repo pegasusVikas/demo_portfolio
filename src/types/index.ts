@@ -5,14 +5,21 @@ export interface GameOptions {
 }
 
 export interface GameState {
+    gameId?: string;
+    stateId?: string;
+    nextStateId?: string;
+    isGameOver?: boolean;
+    storyTitle?: string;
     "image" : any;
     "story summary": string;
     "current state": string;
     options: GameOptions;
-    "health" : number;
 }
 
 export interface GameAction {
+    gameId: string;
+    stateId: string;
+    nextStateId: string;
     "story summary": string;
     "current state": string;
     "chosen option": string;
