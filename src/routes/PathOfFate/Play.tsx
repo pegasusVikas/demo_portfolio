@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { RotateCw } from 'lucide-react';
+import { RotateCw, ChevronRight, ChevronLeft,Rewind } from 'lucide-react';
 import { GameAction, GameState } from '../../types';
 import axios from 'axios';
 const BACKEND_API = import.meta.env.VITE_BACKEND_API;
@@ -16,6 +16,7 @@ const Play: React.FC = () => {
     'isGameOver': false
   });
   const [isLoading, setLoading] = useState(false);
+  const [showChoices, setShowChoices] = useState(false);
 
   React.useEffect(() => {
     setStoryData(location.state.storyData);
@@ -23,10 +24,8 @@ const Play: React.FC = () => {
   React.useEffect(() => {
     if(storyData.isGameOver === true) {
       setStoryData({...storyData,
-        gameId: '',
         stateId: '',
-        nextStateId: '', 
-        options: { A: '', B: '', C: '' },
+        nextStateId: '',
     });
     }
   }, [storyData.isGameOver]);
@@ -48,6 +47,32 @@ const Play: React.FC = () => {
       const gameData = response.data;
       gameData.image = BACKEND_API+gameData.image;
       setStoryData({...gameData});
+      setShowChoices(false);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    setLoading(false)
+  };
+
+  const handleRetryScenario = async () => {
+    setLoading(true)
+    setStoryData({...storyData, isGameOver: false});
+    try {
+      const body : GameAction = {
+        "chosen option": '',
+        gameId: storyData.gameId ?? '',
+        stateId: storyData.stateId ?? '',
+        nextStateId: storyData.nextStateId ?? '',
+        "story summary": storyData['story summary'],
+        "current state": storyData['current state']
+      }
+      const response = await axios.post(`${BACKEND_API}/retryGame`,
+        body
+        );
+      const gameData = response.data;
+      gameData.image = BACKEND_API+gameData.image;
+      setStoryData({...gameData});
+      setShowChoices(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -65,7 +90,15 @@ const Play: React.FC = () => {
       {storyData.isGameOver && (
         <div className="modal modal-open">
           <div className="modal-box relative flex flex-col items-center justify-center">
-            <h3 className="font-bold text-3xl text-black mb-6 text-center">Game Over</h3>
+            <div className="flex items-center justify-center w-full mb-6">
+              <button 
+                className="btn btn-circle btn-sm absolute left-4"
+                onClick={handleRetryScenario}
+              >
+                <Rewind size={20} />
+              </button>
+              <h3 className="font-bold text-3xl text-black text-center">Game Over</h3>
+            </div>
             <p className="py-4 text-black text-center mb-6">{storyData['current state']}</p>
             <div className="modal-action flex justify-center w-full">
               <button 
@@ -105,25 +138,53 @@ const Play: React.FC = () => {
                 className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
-            {/* Narrative Section */}
-            <div className="card bg-base-100 shadow-xl mb-8">
-              <div className="card-body">
-                <p className="text-lg text-black">
-                  {storyData?.['current state']}
-                </p>
+
+            <div className="relative">
+              {/* Narrative Section */}
+              <div className={`transition-opacity duration-300 ${showChoices ? 'opacity-0 hidden' : 'opacity-100'}`}>
+                <div className="card bg-base-100 shadow-xl mb-8">
+                  <div className="card-body">
+                    <p className="text-lg text-black mb-8">
+                      {storyData?.['current state']}
+                    </p>
+                    <div className="flex justify-end">
+                      <button 
+                        className="btn btn-circle btn-neutral"
+                        onClick={() => setShowChoices(true)}
+                      >
+                        <ChevronRight size={24} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            {/* Choice Buttons */}
-            <div className="flex flex-col gap-4">
-              <button className="btn btn-neutral w-full text-left" onClick={() => handleSubmit("A")}>
-                {storyData?.options.A}
-              </button>
-              <button className="btn btn-neutral w-full text-left" onClick={() => handleSubmit("B")}>
-                {storyData?.options.B}
-              </button>
-              <button className="btn btn-neutral w-full text-left" onClick={() => handleSubmit("C")}>
-                {storyData?.options.C}
-              </button>
+
+              {/* Choice Buttons */}
+              <div className={`transition-opacity duration-300 ${showChoices ? 'opacity-100' : 'opacity-0 hidden'}`}>
+                <div className="card bg-base-100 shadow-xl mb-8">
+                  <div className="card-body">
+                    <div className="flex flex-col gap-4 mb-8">
+                      <button className="btn btn-neutral w-full text-left" onClick={() => handleSubmit("A")}>
+                        {storyData?.options.A}
+                      </button>
+                      <button className="btn btn-neutral w-full text-left" onClick={() => handleSubmit("B")}>
+                        {storyData?.options.B}
+                      </button>
+                      <button className="btn btn-neutral w-full text-left" onClick={() => handleSubmit("C")}>
+                        {storyData?.options.C}
+                      </button>
+                    </div>
+                    <div className="flex justify-start">
+                      <button 
+                        className="btn btn-circle btn-neutral"
+                        onClick={() => setShowChoices(false)}
+                      >
+                        <ChevronLeft size={24} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
