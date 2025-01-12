@@ -102,6 +102,10 @@ const PathOfFate: React.FC = () => {
                 className="btn btn-sm btn-neutral" onClick={() => setTextInput("Romance")} >
                 Romance
               </button>
+              <button 
+                className="btn btn-sm btn-neutral" onClick={() => setTextInput("Zombie")} >
+                Zombie
+              </button>
             </div>
           </div>
         </div>
