@@ -97,9 +97,9 @@ const Play: React.FC = () => {
               >
                 <Rewind size={20} />
               </button>
-              <h3 className="font-bold text-3xl text-black text-center">Game Over</h3>
+              <h3 className="font-bold text-3xl text-black dark:text-slate-200 text-center">Game Over</h3>
             </div>
-            <p className="py-4 text-black text-center mb-6">{storyData['current state']}</p>
+            <p className="py-4 text-black dark:text-slate-400 text-center mb-6">{storyData['current state']}</p>
             <div className="modal-action flex justify-center w-full">
               <button 
                 className="btn btn-active w-32"
@@ -115,18 +115,18 @@ const Play: React.FC = () => {
       {/* Main Content */}
       {isLoading ? (
         <div className="min-h-screen bg-base-200 flex items-center justify-center">
-          <span className="loading loading-infinity loading-lg text-black size-24"></span>
+          <span className="loading loading-infinity loading-lg text-black dark:text-slate-200 size-24"></span>
         </div>
       ) : (
         <div className="min-h-screen bg-base-200 p-4">
           {/* Brand Name */}
           <div className="mb-8">
-            <span className="text-xl font-bold text-black">Path of Fate</span>
+            <span className="text-xl font-bold text-black dark:text-slate-200">Path of Fate</span>
           </div>
 
           <div className="container mx-auto max-w-2xl">
             {/* Story Title */}
-            <h1 className="text-4xl font-bold text-center font-serif text-black mb-8">
+            <h1 className="text-4xl font-bold text-center font-serif text-black dark:text-slate-200 mb-8">
               {storyData?.storyTitle}
             </h1>
 
@@ -144,7 +144,7 @@ const Play: React.FC = () => {
               <div className={`transition-opacity duration-300 ${showChoices ? 'opacity-0 hidden' : 'opacity-100'}`}>
                 <div className="card bg-base-100 shadow-xl mb-8">
                   <div className="card-body">
-                    <p className="text-lg text-black mb-8">
+                    <p className="text-lg text-black dark:text-slate-400 mb-8">
                       {storyData?.['current state']}
                     </p>
                     <div className="flex justify-end">

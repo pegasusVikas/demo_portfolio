@@ -49,22 +49,22 @@ const PathOfFate: React.FC = () => {
   return (
     isLoading ? (
       <div className="min-h-screen bg-base-200 flex items-center justify-center flex-col gap-8">
-        <span className="loading loading-infinity loading-lg text-black size-24"></span>
+        <span className="loading loading-infinity loading-lg text-black dark:text-white size-24"></span>
         <p className="text-xs text-gray-500">Hang on, this might take a few seconds....</p>
-        <p className="text-xl text-black font-medium transition-all duration-1000 ease-in-out">
+        <p className="text-xl text-black dark:text-white font-medium transition-all duration-1000 ease-in-out">
           {loadingMessages[loadingText]}
         </p>
       </div>
     ) : (
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content text-center flex flex-col">
-          <h1 className="text-5xl font-bold mb-8 text-black">Path of Fate</h1>
+          <h1 className="text-5xl font-bold mb-8 text-black dark:text-white">Path of Fate</h1>
           <div className="form-control w-full max-w-xl">
             <div className="relative">
               <textarea 
-                className="textarea textarea-bordered h-32 mb-4 text-black resize-none w-full pr-24"  
+                className="textarea textarea-bordered h-32 mb-4 text-black dark:text-slate-200 resize-none w-full pr-24"  
                 placeholder="Describe your destiny..."
-                maxLength={50}
+                maxLength={100}
                 value={textInput}
                 onChange={(e) => {
                   setTextInput(e.target.value);
@@ -77,7 +77,7 @@ const PathOfFate: React.FC = () => {
                 <Wand2  size={20} />
               </button>
               <div className="absolute bottom-8 right-16 text-sm text-gray-300">
-                {textInput.length}/50
+                {textInput.length}/100
               </div>
             </div>
             
