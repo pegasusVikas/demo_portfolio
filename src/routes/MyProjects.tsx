@@ -1,5 +1,4 @@
-import React from 'react';
-import { ScrollText, Bot, Globe, Gamepad2 } from 'lucide-react';
+import React from 'react';import { ScrollText, Bot, SlidersHorizontal, Gamepad2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const projects = [
@@ -8,13 +7,14 @@ const projects = [
     description: 'An interactive story game where your choices shape the adventure—choose wisely to keep the story alive!',
     icon: <Gamepad2 size={32} className="text-purple-400" />,
     path: '/pathOfFate'
-  }/*,
-  {
-    name: 'Portfolio',
-    description: 'A personal portfolio website built with React and Tailwind CSS.',
-    icon: <Globe size={32} className="text-blue-400" />
   },
   {
+    name: 'Chat Clone',
+    description: 'Fine Tunning Model based on your WhatsApp chat',
+    icon: <SlidersHorizontal size={32} className="text-blue-400" />,
+    url: 'https://github.com/pegasusVikas/Chat-Clone'
+  }
+  /*{
     name: 'AI Chat Bot',
     description: 'A conversational AI bot built using OpenAI API.',
     icon: <Bot size={32} className="text-green-400" />
@@ -24,6 +24,12 @@ const projects = [
 const MyProjects: React.FC = () => {
   const navigate = useNavigate();
 
+  const navigateLink =(path:string|undefined,url:string|undefined) =>{
+    if(path)
+      navigate(path);
+    else
+      window.open(url, '_blank', 'noopener,noreferrer');
+  }
   return (
     <div className="h-full bg-gradient-to-br from-gray-900 to-black p-8 overflow-auto">
       <h2 className="text-4xl font-bold mb-6 text-center text-blue-400">My Projects</h2>
@@ -36,7 +42,7 @@ const MyProjects: React.FC = () => {
               active:scale-95 
               transition-all duration-300 ease-in-out 
               cursor-pointer" 
-            onClick={() => navigate(project.path)}
+            onClick={()=>navigateLink(project.path,project.url)}
           >
             <div className="flex items-center gap-4 mb-4">
               {project.icon}
